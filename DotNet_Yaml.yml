@@ -1,4 +1,4 @@
-variables:
+parameters:
 - name: solution
   value: '**\*.sln'
 - name: buildPlatform
