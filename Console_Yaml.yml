@@ -27,5 +27,5 @@ steps:
   condition: succeededOrFailed()
   inputs:
     PathtoPublish: $(build.artifactstagingdirectory)
-    ArtifactName: $(BuildParameters.ArtifactName)
+    ArtifactName: drop
     TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
