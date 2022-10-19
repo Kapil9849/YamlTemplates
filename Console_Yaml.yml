@@ -1,0 +1,31 @@
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+- task: PublishSymbols@2
+  displayName: Publish symbols path
+  continueOnError: True
+  inputs:
+    SearchPattern: '**\bin\**\*.pdb'
+    PublishSymbols: false
+    SymbolServerType: TeamServices
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  condition: succeededOrFailed()
+  inputs:
+    PathtoPublish: $(build.artifactstagingdirectory)
+    ArtifactName: $(BuildParameters.ArtifactName)
+    TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
